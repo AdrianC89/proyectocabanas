@@ -48,7 +48,7 @@ class Cabana {
             'capacidad' => $this->capacidad,
             'tipo' => $this->tipo,
             'costoPorDia' => $this->costoPorDia,
-            'estado' => $this->estado // Incluimos el estado en la representación JSON
+            'estado' => $this->estado
         ];
     }
 
