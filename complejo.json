@@ -1,0 +1,94 @@
+{
+    "nombre": "Complejo Ejemplo",
+    "direccion": "Calle Ejemplo 123",
+    "cabanas": [
+        {
+            "id": 1,
+            "capacidad": 4,
+            "tipo": "Doble",
+            "costoPorDia": 120,
+            "estado": "activo"
+        },
+        {
+            "id": 2,
+            "capacidad": 2,
+            "tipo": "Individual",
+            "costoPorDia": 90,
+            "estado": "activo"
+        },
+        {
+            "id": 3,
+            "capacidad": 6,
+            "tipo": "Familiar",
+            "costoPorDia": 150,
+            "estado": "activo"
+        }
+    ],
+    "clientes": [
+        {
+            "dni": "654321987",
+            "nombre": "Cliente 3",
+            "direccion": "Calle Principal 456",
+            "telefono": "+123456789",
+            "email": "cliente3@example.com"
+        },
+        {
+            "dni": "789123456",
+            "nombre": "Cliente 4",
+            "direccion": "Avenida Secundaria 789",
+            "telefono": "+987654321",
+            "email": "cliente4@example.com"
+        },
+        {
+            "dni": "135792468",
+            "nombre": "Cliente 5",
+            "direccion": "Ruta Principal 123",
+            "telefono": "+555555555",
+            "email": "cliente5@example.com"
+        }
+    ],
+    "reservas": [
+        {
+            "id": 4,
+            "cliente": {
+                "dni": "654321987",
+                "nombre": "Cliente 3",
+                "direccion": "Calle Principal 456",
+                "telefono": "+123456789",
+                "email": "cliente3@example.com"
+            },
+            "cabana": {
+                "id": 1,
+                "capacidad": 4,
+                "tipo": "Doble",
+                "costoPorDia": 120,
+                "estado": "activo"
+            },
+            "fechaInicio": "2023-10-15",
+            "fechaFin": "2023-10-20",
+            "costo": 600,
+            "diasReserva": 5
+        },
+        {
+            "id": 5,
+            "cliente": {
+                "dni": "789123456",
+                "nombre": "Cliente 4",
+                "direccion": "Avenida Secundaria 789",
+                "telefono": "+987654321",
+                "email": "cliente4@example.com"
+            },
+            "cabana": {
+                "id": 2,
+                "capacidad": 2,
+                "tipo": "Individual",
+                "costoPorDia": 90,
+                "estado": "activo"
+            },
+            "fechaInicio": "2023-11-10",
+            "fechaFin": "2023-11-15",
+            "costo": 450,
+            "diasReserva": 5
+        }
+    ]
+}
