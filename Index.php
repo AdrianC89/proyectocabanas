@@ -168,7 +168,7 @@ function agregarCabana($complejo)
     $estado = readline("Ingrese el estado de la cabaña: ");
 
     try {
-        $complejo->agregarCabana(new Cabana($numeroCabana, $capacidad, $tipo, $costoPorDia, $estado));
+        $complejo->agregarCabana(new Cabana($numeroCabana, $capacidad, $tipo, $costoPorDia));
         echo "Cabaña agregada con éxito.\n";
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage() . "\n";
