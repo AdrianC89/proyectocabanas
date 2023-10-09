@@ -1,15 +1,13 @@
 <?php
 
-class Reserva
-{
+class Reserva {
     private $id;
     private $cliente;
     private $cabana;
     private $fechaInicio;
     private $fechaFin;
 
-    public function __construct($id, $cliente, $cabana, $fechaInicio, $fechaFin)
-    {
+    public function __construct($id, $cliente, $cabana, $fechaInicio, $fechaFin) {
         $this->id = $id;
         $this->cliente = $cliente;
         $this->cabana = $cabana;
@@ -17,50 +15,42 @@ class Reserva
         $this->fechaFin = $fechaFin;
     }
 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    public function getCliente()
-    {
+    public function getCliente() {
         return $this->cliente;
     }
 
-    public function getCabana()
-    {
+    public function getCabana() {
         return $this->cabana;
     }
 
-    public function getFechaInicio()
-    {
+    public function getFechaInicio() {
         return $this->fechaInicio;
     }
 
-    public function getFechaFin()
-    {
+    public function getFechaFin() {
         return $this->fechaFin;
     }
 
-    public function setCliente($cliente)
-    {
+    public function setCliente($cliente) {
         $this->cliente = $cliente;
     }
 
-    public function setCabana($cabana)
-    {
+    public function setCabana($cabana) {
         $this->cabana = $cabana;
     }
 
-    public function setFechaInicio($fechaInicio)
-    {
+    public function setFechaInicio($fechaInicio) {
         $this->fechaInicio = $fechaInicio;
     }
 
-    public function setFechaFin($fechaFin)
-    {
+    public function setFechaFin($fechaFin) {
         $this->fechaFin = $fechaFin;
     }
+
 
     public function calcularCosto()
     {
@@ -101,9 +91,9 @@ class Reserva
         $this->fechaFin = $nuevaFechaFin;
     }
 
-    public function eliminarReserva()
-    {
-        // Implementa aquí la lógica para eliminar la reserva si es necesario
-        // Puedes cambiar el estado de la reserva o eliminarla físicamente de tu sistema
+    public static function fromJson($data) {
+        $cliente = Cliente::fromJson($data['cliente']);
+        $cabana = Cabana::fromJson($data['cabana']);
+        return new Reserva($data['id'], $cliente, $cabana, $data['fechaInicio'], $data['fechaFin']);
     }
 }

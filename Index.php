@@ -23,13 +23,15 @@ if (file_exists('complejo.json')) {
 }
 
 // Función para guardar los datos del complejo en el archivo JSON
-function guardarComplejoEnJSON($complejo) {
+function guardarComplejoEnJSON($complejo)
+{
     $complejoData = json_encode($complejo->toJSON(), JSON_PRETTY_PRINT);
     file_put_contents('complejo.json', $complejoData);
 }
 
 // Función para gestionar cabañas
-function gestionarCabanas($complejo) {
+function gestionarCabanas($complejo)
+{
     while (true) {
         echo "Menu de Gestion de Cabanas:\n";
         echo "1. Agregar Cabana\n";
@@ -40,24 +42,11 @@ function gestionarCabanas($complejo) {
         $opcion = readline("Seleccione una opcion: ");
 
         switch ($opcion) {
-            case 1:
-                $id = readline("Ingrese el ID de la nueva cabana: ");
-                $capacidad = readline("Ingrese la capacidad de la cabana: ");
-                $tipo = readline("Ingrese el tipo de la cabana: ");
-                $costoPorDia = readline("Ingrese el costo por dia: ");
-                try {
-                    $complejo->agregarCabana(new Cabana($id, $capacidad, $tipo, $costoPorDia));
-                    echo "Cabana agregada con exito.\n";
-                } catch (Exception $e) {
-                    echo "Error: " . $e->getMessage() . "\n";
-                }
+            case 1:                
+                agregarCabana($complejo);
                 break;
             case 2:
-                $id = readline("Ingrese el ID de la cabana a modificar: ");
-                $nuevaCapacidad = readline("Ingrese la nueva capacidad: ");
-                $nuevoTipo = readline("Ingrese el nuevo tipo: ");
-                $nuevoCostoPorDia = readline("Ingrese el nuevo costo por dia: ");
-                // Implementar la logica para modificar la cabana
+                modificarCabana($complejo, readline("Ingrese el ID de la cabana a modificar: "));
                 break;
             case 3:
                 $id = readline("Ingrese el ID de la cabana a eliminar: ");
@@ -73,7 +62,8 @@ function gestionarCabanas($complejo) {
 }
 
 // Función para gestionar clientes
-function gestionarClientes($complejo) {
+function gestionarClientes($complejo)
+{
     while (true) {
         echo "Menu de Gestion de Clientes:\n";
         echo "1. Agregar Cliente\n";
@@ -85,26 +75,15 @@ function gestionarClientes($complejo) {
 
         switch ($opcion) {
             case 1:
-                $dni = readline("Ingrese el DNI del nuevo cliente: ");
-                $nombre = readline("Ingrese el nombre del cliente: ");
-                $direccion = readline("Ingrese la direccion del cliente: ");
-                $telefono = readline("Ingrese el telefono del cliente: ");
-                $email = readline("Ingrese el correo electronico del cliente: ");
-                try {
-                    $complejo->agregarCliente(new Cliente($dni, $nombre, $direccion, $telefono, $email));
-                    echo "Cliente agregado con exito.\n";
-                } catch (Exception $e) {
-                    echo "Error: " . $e->getMessage() . "\n";
-                }
+                agregarCliente($complejo);
                 break;
             case 2:
                 $dni = readline("Ingrese el DNI del cliente a modificar: ");
-                $nuevoNombre = readline("Ingrese el nuevo nombre: ");
-                // Implementar la logica para modificar el cliente
+                modificarCliente($complejo, $dni);
                 break;
             case 3:
                 $dni = readline("Ingrese el DNI del cliente a eliminar: ");
-                // Implementar la logica para eliminar el cliente
+                eliminarCliente($complejo, $dni);
                 break;
             case 4:
                 return; // Volver al Menu Principal
@@ -116,7 +95,8 @@ function gestionarClientes($complejo) {
 }
 
 // Función para gestionar reservas
-function gestionarReservas($complejo) {
+function gestionarReservas($complejo)
+{
     while (true) {
         echo "Menu de Gestion de Reservas:\n";
         echo "1. Hacer Reserva\n";
@@ -147,7 +127,8 @@ function gestionarReservas($complejo) {
     }
 }
 
-function menuPrincipal($complejo) {
+function menuPrincipal($complejo)
+{
     while (true) {
         echo "Menu Principal:\n";
         echo "1. Gestionar Cabanas\n";
@@ -178,6 +159,85 @@ function menuPrincipal($complejo) {
     }
 }
 
+function agregarCabana($complejo)
+{
+    $numeroCabana = readline("Ingrese el número de la cabaña: ");
+    $capacidad = readline("Ingrese la capacidad de la cabaña: ");
+    $tipo = readline("Ingrese el tipo de la cabaña: ");
+    $costoPorDia = readline("Ingrese el costo por día de la cabaña: ");
+    $estado = readline("Ingrese el estado de la cabaña: ");
+
+    try {
+        $complejo->agregarCabana(new Cabana($numeroCabana, $capacidad, $tipo, $costoPorDia, $estado));
+        echo "Cabaña agregada con éxito.\n";
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+    }
+}
+
+
+// Función para modificar una cabaña existente
+function modificarCabana($complejo, $id)
+{
+    $nuevaCapacidad = readline("Ingrese la nueva capacidad: ");
+    $nuevoTipo = readline("Ingrese el nuevo tipo: ");
+    $nuevoCostoPorDia = readline("Ingrese el nuevo costo por día: ");
+
+    try {
+        $complejo->modificarCabana($id, $nuevaCapacidad, $nuevoTipo, $nuevoCostoPorDia);
+        echo "Cabaña modificada con éxito.\n";
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+    }
+}
+
+// Función para agregar un nuevo cliente
+function agregarCliente($complejo)
+{
+    $dni = readline("Ingrese el DNI del nuevo cliente: ");
+    $nombre = readline("Ingrese el nombre del cliente: ");
+    $direccion = readline("Ingrese la dirección del cliente: ");
+    $telefono = readline("Ingrese el teléfono del cliente: ");
+    $email = readline("Ingrese el correo electrónico del cliente: ");
+
+    try {
+        $complejo->agregarCliente(new Cliente($dni, $nombre, $direccion, $telefono, $email));
+        echo "Cliente agregado con éxito.\n";
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+    }
+}
+
+// Función para modificar un cliente existente
+function modificarCliente($complejo, $dni)
+{
+    $cliente = $complejo->buscarClientePorDni($dni);
+    if ($cliente) {
+        $nuevoNombre = readline("Ingrese el nuevo nombre: ");
+        $nuevaDireccion = readline("Ingrese la nueva dirección: ");
+        $nuevoTelefono = readline("Ingrese el nuevo teléfono: ");
+        $nuevoEmail = readline("Ingrese el nuevo correo electrónico: ");
+
+        try {
+            $complejo->modificarCliente($dni, $nuevoNombre, $nuevaDireccion, $nuevoTelefono, $nuevoEmail);
+            echo "Cliente modificado con éxito.\n";
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "\n";
+        }
+    } else {
+        echo "Cliente no encontrado.\n";
+    }
+}
+// Función para eliminar un cliente existente
+function eliminarCliente($complejo, $dni)
+{
+    try {
+        $complejo->eliminarCliente($dni);
+        echo "Cliente eliminado con éxito.\n";
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+    }
+}
+
 // Llamar la función del menú principal
 menuPrincipal($complejo);
-?>

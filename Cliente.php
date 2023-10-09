@@ -1,5 +1,4 @@
 <?php
-
 class Cliente {
     private $dni;
     private $nombre;
@@ -7,23 +6,12 @@ class Cliente {
     private $telefono;
     private $email;
 
-    // Array para almacenar DNIs únicos y garantizar la unicidad
-    private static $dnisUnicos = [];
-
     public function __construct($dni, $nombre, $direccion, $telefono, $email) {
-        // Verificar si el DNI es único antes de crear el cliente
-        if ($this->esDniUnico($dni)) {
-            $this->dni = $dni;
-            $this->nombre = $nombre;
-            $this->direccion = $direccion;
-            $this->telefono = $telefono;
-            $this->email = $email;
-            // Agregar el DNI a la lista de DNIs únicos
-            self::$dnisUnicos[] = $dni;
-        } else {
-            // Manejar el caso en el que el DNI no es único
-            throw new Exception("El DNI '$dni' ya existe en la base de datos.");
-        }
+        $this->dni = $dni;
+        $this->nombre = $nombre;
+        $this->direccion = $direccion;
+        $this->telefono = $telefono;
+        $this->email = $email;
     }
 
     public function getDni() {
@@ -46,7 +34,23 @@ class Cliente {
         return $this->email;
     }
 
-    public function toJSON() {
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function setDireccion($direccion) {
+        $this->direccion = $direccion;
+    }
+
+    public function setTelefono($telefono) {
+        $this->telefono = $telefono;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function toJson() {
         return [
             'dni' => $this->dni,
             'nombre' => $this->nombre,
@@ -56,27 +60,7 @@ class Cliente {
         ];
     }
 
-    public function modificarCliente($nuevoNombre, $nuevaDireccion, $nuevoTelefono, $nuevoEmail) {
-        $this->nombre = $nuevoNombre;
-        $this->direccion = $nuevaDireccion;
-        $this->telefono = $nuevoTelefono;
-        $this->email = $nuevoEmail;
-    }
-
-    public function eliminarCliente() {
-        // Implementa aquí la lógica para eliminar el cliente si es necesario
-        // Puedes cambiar el estado del cliente o eliminarlo físicamente de tu sistema
-        // Además, asegúrate de eliminar el DNI de la lista de DNIs únicos
-        $dni = $this->dni;
-        if (($key = array_search($dni, self::$dnisUnicos)) !== false) {
-            unset(self::$dnisUnicos[$key]);
-        }
-    }
-
-    // Función para verificar si un DNI es único
-    private function esDniUnico($dni) {
-        return !in_array($dni, self::$dnisUnicos);
+    public static function fromJson($data) {
+        return new Cliente($data['dni'], $data['nombre'], $data['direccion'], $data['telefono'], $data['email']);
     }
 }
-
-?>

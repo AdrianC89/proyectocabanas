@@ -1,33 +1,28 @@
 <?php
 
 class Cabana {
-    private $id;
+    private $numeroCabana;
     private $capacidad;
     private $tipo;
     private $costoPorDia;
-    private $estado; // Agregamos un atributo para el estado de la cabaña
+    private $estado;
 
     // Array para almacenar IDs únicos e irrepetibles
     private static $idsUnicos = [];
 
-    public function __construct($id, $capacidad, $tipo, $costoPorDia) {
-        // Verificar si el ID es único antes de crear la cabaña
-        if ($this->esIdUnico($id)) {
-            $this->id = $id;
+    public function __construct($numeroCabana, $capacidad, $tipo, $costoPorDia) {
+        if ($this->esNumeroCabanaUnico($numeroCabana)) {
+            $this->numeroCabana = $numeroCabana;
             $this->capacidad = $capacidad;
             $this->tipo = $tipo;
             $this->costoPorDia = $costoPorDia;
-            $this->estado = 'activo'; // Inicializamos el estado como activo
-            // Agregar el ID a la lista de IDs únicos
-            self::$idsUnicos[] = $id;
+            $this->estado = 'activo';
         } else {
-            // Manejar el caso en el que el ID no es único
-            throw new Exception("El ID '$id' ya existe en la base de datos.");
+            throw new Exception("El número de cabaña '$numeroCabana' ya existe en la base de datos.");
         }
     }
-
-    public function getId() {
-        return $this->id;
+    public function getNumeroCabana() {
+        return $this->numeroCabana;
     }
 
     public function getCapacidad() {
@@ -42,16 +37,18 @@ class Cabana {
         return $this->costoPorDia;
     }
 
-    public function toJSON() {
+    public function toJson() {
         return [
-            'id' => $this->id,
+            'numeroCabana' => $this->numeroCabana,
             'capacidad' => $this->capacidad,
             'tipo' => $this->tipo,
             'costoPorDia' => $this->costoPorDia,
             'estado' => $this->estado
         ];
     }
-
+    public static function fromJson($data) {
+        return new Cabana($data['numeroCabana'], $data['capacidad'], $data['tipo'], $data['costoPorDia']);
+    }
     public function modificarCabana($nuevaCapacidad, $nuevoTipo, $nuevoCostoPorDia) {
         $this->capacidad = $nuevaCapacidad;
         $this->tipo = $nuevoTipo;
@@ -64,8 +61,20 @@ class Cabana {
     }
 
     // Función para verificar si un ID es único
-    private function esIdUnico($id) {
-        return !in_array($id, self::$idsUnicos);
+    private function esNumeroCabanaUnico($numeroCabana) {
+        return !in_array($numeroCabana, self::$idsUnicos);
+    }
+    
+    public function setCapacidad($capacidad) {
+        $this->capacidad = $capacidad;
+    }
+
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+
+    public function setCostoPorDia($costoPorDia) {
+        $this->costoPorDia = $costoPorDia;
     }
 }
 
